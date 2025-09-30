@@ -4,7 +4,8 @@ enum MovementOutput{
   kMovementOutput_BasicMove = 0,
   kMovementOutput_NoMove,
   kMovementOutput_Eat,
-  kMovementOutput_End
+  kMovementOutput_End,
+  kMovementOutput_InvalidMove
 };
 
 struct Parcheesi{
@@ -19,14 +20,24 @@ struct Parcheesi{
   int num_players_;
   int current_turn_;
   int repeated_sixes_;
+  int last_piece_;
 
   Colors current_player_;   
   Player player_[kMaxPlayers];
 
   Parcheesi(int num_players);
 
-  int CountPiecesOnBox(int box);
+  bool GameWon() const;
+  int CountPiecesOnBox(int box) const;
+  const Player& CurrentPlayer() const;
+  Player& CurrentPlayer();
+
   void NextPlayer();
-  void PlayTurn();
-  MovementOutput ApplyMovement(int pieceIndex, int mov_num);
+  MovementOutput ApplyMovement(int pieceIndex, int dice_roll);
+
+  int SelectMove(int dice_roll);
+
+  void PlayTurn() {
+    
+  }
 };

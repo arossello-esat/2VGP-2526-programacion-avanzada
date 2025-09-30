@@ -15,6 +15,6 @@ struct Player{
   Piece piece_[kPieceNum];
 
   Player(Colors color);
-  bool PiecesAtHome();
-  int CountPiecesOnBox(int box);
+  bool PiecesAtHome() const;
+  int CountPiecesOnBox(int box) const;
 };

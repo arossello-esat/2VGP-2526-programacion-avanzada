@@ -7,7 +7,7 @@ enum Colors{
   kColor_Green
 };
 
-struct Player{
+struct PlayerData{
   static const int kPieceNum = 4;
 
   Colors color_;

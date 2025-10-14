@@ -1,0 +1,1 @@
+- es dificil pensar sin codigo

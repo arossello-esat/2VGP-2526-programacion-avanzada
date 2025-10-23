@@ -37,10 +37,11 @@ class IParcheesi {
     virtual int PiecesAtHome(int player_index) const = 0;
     virtual int PiecesAtEnd(int player_index) const = 0;
     virtual bool IsBoxSafe(int box_index) const = 0;
-    virtual Color ColorofPiece(int box_index, int piece_index) const = 0;
+    // higher box_piece_index means the piece moved later
+    virtual Color ColorofPiece(int box_index, int box_piece_index) const = 0;
 
-    virtual Movement ApplyMovement(int piece_index, int count) = 0;
-    virtual void SendPieceHome(int piece_index) = 0;
+    virtual Movement ApplyMovement(int piece_index, int player_index, int count) = 0;
+    virtual void SendPieceHome(int piece_index, int player_index) = 0;
 
     virtual ~IParcheesi() = default;
 };

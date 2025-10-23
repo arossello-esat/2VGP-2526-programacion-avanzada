@@ -1,4 +1,28 @@
 
+class {
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main(){
   Parcheesi parchis{4};  //Instancia
 

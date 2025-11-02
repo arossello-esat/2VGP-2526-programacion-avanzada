@@ -27,10 +27,9 @@ project "Parcheesi"
 
    files
    {
-      "game.h",
-      "iparcheesi.h",
+      "interface/iparcheesi.h",
+      "interface/iplayer.h",
       "mock_parcheesi.h",
-
-      "game.cc",
+      "game.h", "game.cc",
       "main.cc"
    }

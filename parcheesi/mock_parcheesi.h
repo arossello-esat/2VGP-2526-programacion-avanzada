@@ -2,7 +2,8 @@
 #ifndef MOCK_PARCHEESI_H
 #define MOCK_PARCHEESI_H
 
-#include "iparcheesi.h"
+#include "interface/iparcheesi.h"
+#include "interface/iplayer.h"
 #include "game.h"
 
 class MockParcheesi : public IParcheesi {

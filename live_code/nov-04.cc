@@ -108,7 +108,14 @@ int main(int, char**) {
     // AÑADE ELEMENTOS AL FINAL DE VF
     std::copy(elementos_nuevos.begin(),elementos_nuevos.end(),adapter);
 
+    std::shared_ptr<NodeInt> vacio;
+    std::shared_ptr<NodeInt> node = std::make_shared<NodeInt>(3.0f);
+std::shared_ptr<NodeInt> node2 = node;
 
+NodeInt minodo;
+std::shared_ptr<NodeInt> node3 = &minodo;
+
+node.get();
 
     // CADENAS: STD::STRING
 

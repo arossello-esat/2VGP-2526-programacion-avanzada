@@ -31,6 +31,9 @@
         "string": "cpp",
         "unordered_map": "cpp",
         "xhash": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "memory": "cpp",
+        "atomic": "cpp",
+        "typeinfo": "cpp"
     }
 }

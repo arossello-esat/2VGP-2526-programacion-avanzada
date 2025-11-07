@@ -3,65 +3,139 @@
 
 class ITable {
     public:
-    enum class Action {
-        Stand,
-        Hit,
-        Double,
-        Split
-    };
+        enum class Action {
+            Stand,
+            Hit,
+            Double,
+            Split
+        };
 
-    enum class Result {
-        Ok,
-        Illegal
-    };
-    enum class Value {
-        ACE = 1,
-        TWO,
-        THREE,
-        FOUR,
-        FIVE,
-        SIX,
-        SEVEN,
-        EIGHT,
-        NINE,
-        TEN,
-        JACK,
-        QUEEN,
-        KING,
-        end
-    };
+        enum class Result {
+            Ok,
+            Illegal
+        };
+        enum class Value {
+            ACE = 1,
+            TWO,
+            THREE,
+            FOUR,
+            FIVE,
+            SIX,
+            SEVEN,
+            EIGHT,
+            NINE,
+            TEN,
+            JACK,
+            QUEEN,
+            KING,
+            end
+        };
 
-    enum class Suit {
-        HEARTS,
-        CLUBS,
-        SPADES,
-        DIAMONDS,
-        end
-    };
+        enum class Suit {
+            HEARTS,
+            CLUBS,
+            SPADES,
+            DIAMONDS,
+            end
+        };
 
-    struct Card {
-        Value value_;
-        Suit suit_;
-    };
+        struct Card {
+            Value value_;
+            Suit suit_;
+        };
 
-    std::vector<Card> GetHand(int player_index,int hand_index) const;
-    int GetNumberOfHands(int player_index) const;
+        using Hand = std::vector<Card>;
 
-    int GetPlayerCurrentBet(int player_index,int hand_index) const;
-    int GetPlayerMoney(int player_index) const;
+        class RoundEndInfo {
+            Hand croupier_hand;
+            std::vector<bool> winners;
+            std::vector<int> money_delta; // El dinero ganado por el jugador en esta ronda(no se pierde aqui
+                                        // , porque el dinero ya se ha quitado al hacer la apuesta).
+            int money_delta; // El dinero ganado o perdido por el croupier en esta ronda
+        };
 
-    Card GetDealerCard() const;
+        static const int kMaxBet = 10000;
+        static const int kMinBet = 100;
+        static const int kPlayerStartMoney = 4000;
+        static const int kCroupierStartMoney = 100000;
+        static const int kCroupierStop = 17;
+        static const int kMaxPlayers = 4;
 
-    // Dealer es parte de la mesa, no tiene elecciones propias mas alla de aplicar las reglas
-    void DealCard(int player_index,int hand_index);
+        virtual Hand GetHand(int player_index,int hand_index) const = 0;
+        virtual int GetNumberOfHands(int player_index) const = 0;
 
-    PlaySafeBet(int player_index);
-    Result ApplyPlayerAction(int player_index,int hand_index,Action action);
+        virtual int GetPlayerCurrentBet(int player_index,int hand_index) const = 0;
+        virtual int GetPlayerMoney(int player_index) const = 0;
+        virtual void SetPlayerInitialBet(int player_index,int money) const = 0;
+
+        virtual Card GetDealerCard() const = 0;
+
+        virtual int CroupierMoney() const = 0;
+
+        // Dealer es parte de la mesa, no tiene elecciones propias mas alla de aplicar las reglas
+        virtual void DealCard(int player_index,int hand_index) = 0;
+
+        virtual void PlaySafeBet(int player_index) = 0;
+        virtual Result ApplyPlayerAction(int player_index,int hand_index,Action action) = 0;
 
 
-    CleanTable
-    CalculateWinnings
-    PlayerAction
+        virtual void StartRound() = 0;
+
+        virtual RoundEndInfo FinishRound() = 0;
+        
+        virtual ~ITable() = default;
+
+        virtual GetWinPoint() {
+            switch {
+                case REGLAS_A:
+                case REGLAS_B:
+                case REGLAS_C:
+            }
+        }
+};
+
+class IRules {
+        virtual int GetWinPoint() = 0;
+        virtual int NumberOfDecks() = 0;
+}
+
+class ClassicRules : public IRules {
+        virtual int GetWinPoint() = 0;
+        virtual int NumberOfDecks() = 0;
+}
+
+
+class IPlayer {
+    public:
+        virtual ITable::Action DecidePlayerAction(const ITable& table, int player_index, int hand_index) = 0;
+        virtual int DecideInitialBet(const ITable& table, int player_index) = 0;
+        virtual bool DecideUseSafe(const ITable& table, int player_index) = 0;
+
+        virtual ~IPlayer() = default;
+};
+
+class IGame {
+    public:
+        virtual void PlayGame() = 0;
+};
+
+int main() {
+    do {// RONDA
+        // APUESTA INICIAL
+        // REPARTIR CARTAS A JUGADORES
+        // REPARTIR CARTA AL CROUPIER
+        IF croupier as
+            POR CADA JUGADOR
+                PREGUNTAR SEGURO
+        POR CADA JUGADOR
+            EL JUGADOR HACE ACCIONES HASTA QUE PARA O SE PASA
+                SI SE PARTE LA MANO, JUEGAS UN TURNO COMPLETO POR CADA MANO
+        JUEGA EL CROUPIER
+        SE VALORA VICTORIA/DERROTA
+        SE REPARTE EL DINERO
+        SE LIMPIA LA MESA
+    } while (COMPROBAR CONDICIONES DE VICTORIA/DERROTA)
+}
 
 
         // CheckPlayersLeft
@@ -99,13 +173,3 @@ class ITable {
 
     
     
-
-};
-
-class IPlayer {
-
-};
-
-class IGame {
-
-};

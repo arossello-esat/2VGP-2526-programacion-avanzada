@@ -1,3 +1,4 @@
+#include <memory>
 
 int globala = 0;
 
@@ -54,11 +55,39 @@ const Tipo f();// Se Pasa la propiedad NO ES COMUN
    
 
 Tipo& f(); // NO se Pasa la propiedad
+
   // Te doy acceso para que cambies lo que quieras
 const Tipo& f(); // NO se Pasa la propiedad
   // Puedes mirar, pero no tocar
 
+std::shared_ptr<Tipo> f();
+std::shared_ptr<Tipo> a = obj.f();
+
+  
 Tipo* f(); // MAL NO se Pasa la propiedad, pero es ambiguo. Este interfaz es ambiguo y comunica mal
+Tipo* a = f();
+delete a;
+
+struct patata {
+  patata(int a);
+  int a;
+};
+
+{
+  patata* a = new patata{1};
+  patata* b = a;
+  patata* c = b;
+  patata* d = a;
+  delete a;
+}
+
+{
+  std::shared_ptr<patata> sa = std::make_shared<patata>(1);
+  std::shared_ptr<patata> sb = sa;
+  std::shared_ptr<patata> sc = sb;
+  std::shared_ptr<patata> sd = sa;
+}
+
 const Tipo* f(); // MAL NO se Pasa la propiedad, menos ambiguo. Este interfaz es ambiguo y comunica mal
 Tipo* const f(); // MAL NO se Pasa la propiedad, pero es ambiguo. Este interfaz es ambiguo y comunica mal. MUY inusual
 const Tipo* const f(); // MAL NO se Pasa la propiedad, pero es ambiguo. Este interfaz es ambiguo y comunica mal. MUY inusual

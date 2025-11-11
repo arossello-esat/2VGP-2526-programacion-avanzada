@@ -59,14 +59,15 @@ class ITable {
         static const int kPlayerStartMoney = 4000;
         static const int kCroupierStartMoney = 100000;
         static const int kCroupierStop = 17;
-        static const int kMaxPlayers = 4;
+        static const int kMaxPlayers = 7; // Si se os agotan las cartas en una ronda, bajad el maximo de jugadores
 
         virtual Hand GetHand(int player_index,int hand_index) const = 0;
         virtual int GetNumberOfHands(int player_index) const = 0;
 
         virtual int GetPlayerCurrentBet(int player_index,int hand_index) const = 0;
         virtual int GetPlayerMoney(int player_index) const = 0;
-        virtual void SetPlayerInitialBet(int player_index,int money) const = 0;
+        virtual int GetPlayerInitialBet(int player_index) const = 0;
+        virtual void SetPlayerInitialBet(int player_index,int money) = 0;
 
         virtual Card GetDealerCard() const = 0;
 
@@ -85,25 +86,37 @@ class ITable {
         
         virtual ~ITable() = default;
 
-        virtual GetWinPoint() {
-            switch {
-                case REGLAS_A:
-                case REGLAS_B:
-                case REGLAS_C:
-            }
-        }
 };
 
-class IRules {
-        virtual int GetWinPoint() = 0;
-        virtual int NumberOfDecks() = 0;
-}
+class BaseRules {
+    public:
+        virtual int GetWinPoint() { return 21; }
+        virtual int NumberOfDecks() { return 1; }
+        virtual int InitialCards() { return 2; }
+        virtual bool PlayFirstEvenPlayers() { return false; }
+        virtual ~BaseRules() = default;
+};
 
-class ClassicRules : public IRules {
-        virtual int GetWinPoint() = 0;
-        virtual int NumberOfDecks() = 0;
-}
+class DifferentWinRules : public BaseRules {
+    public:
+        DifferentWinRules(int winpoints) : winpoints_{winpoints} {}
+        virtual int GetWinPoint() override { return winpoints_; }
+    private:
+    int winpoints_;
+};
 
+
+class TwoDecksRules : public DifferentWinRules {
+    public:
+        TwoDecksRules() : DifferentWinRules{25} {}
+        virtual int NumberOfDecks() override { return 2; }
+        virtual int InitialCards() override { return 3; }
+};
+
+class RoundRules : public DifferentWinRules {
+    public:
+        RoundRules() : DifferentWinRules{20} {}
+};
 
 class IPlayer {
     public:
@@ -119,7 +132,34 @@ class IGame {
         virtual void PlayGame() = 0;
 };
 
+class MyTable: public ITable {
+
+};
+
+class MyPlayer: public IPlayer {
+
+};
+class MyGame: public IGame {
+
+};
+
 int main() {
+    RoundRules rules;
+
+    MyTable t{rules};
+    MyPlayer p1{rules},p2{rules},p3{rules},p4{rules};
+    JuanitoPlayer p5{rules},p6{rules},p7{rules};
+    MyGame g{rules,t,p1,p2,p3,p4,p5,p6,p7};
+
+    g.PlayGame();
+
+
+
+
+
+
+
+
     do {// RONDA
         // APUESTA INICIAL
         // REPARTIR CARTAS A JUGADORES
@@ -134,7 +174,7 @@ int main() {
         SE VALORA VICTORIA/DERROTA
         SE REPARTE EL DINERO
         SE LIMPIA LA MESA
-    } while (COMPROBAR CONDICIONES DE VICTORIA/DERROTA)
+    } while (COMPROBAR CONDICIONES DE VICTORIA/DERROTA);
 }
 
 

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PARCHEESI_IPARCHEESI_H
-#define PARCHEESI_IPARCHEESI_H
+#ifndef PARCHEESI_INTERFACE_IPARCHEESI_H
+#define PARCHEESI_INTERFACE_IPARCHEESI_H
 
 class IParcheesi {
   public:
@@ -54,4 +54,4 @@ class IParcheesi {
     virtual ~IParcheesi() = default;
 };
 
-#endif // PARCHEESI_IPARCHEESI_H
+#endif // PARCHEESI_INTERFACE_IPARCHEESI_H

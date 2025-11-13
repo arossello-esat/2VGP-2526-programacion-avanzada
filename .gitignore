@@ -1,3 +1,5 @@
 build/
 .claude/
 *.obj
+**/docs/html/
+tools/

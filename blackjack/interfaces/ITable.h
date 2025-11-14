@@ -87,10 +87,10 @@ class ITable {
          * @brief Information about the end of a round.
          */
         struct RoundEndInfo {
-            Hand croupier_hand;                   ///< The dealer's final hand
+            Hand dealer_hand;                   ///< The dealer's final hand
             std::vector<bool> winners;            ///< Whether each player won (true) or lost (false)
             std::vector<int> player_money_delta;  ///< Money won by each player in this round (money is already deducted when the bet is placed)
-            int croupier_money_delta;             ///< Money won or lost by the dealer in this round
+            int dealer_money_delta;             ///< Money won or lost by the dealer in this round
         };
 
         /// Maximum number of players at the table (reduce if running out of cards during a round)

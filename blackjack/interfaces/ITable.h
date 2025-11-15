@@ -88,7 +88,9 @@ class ITable {
          */
         struct RoundEndInfo {
             Hand dealer_hand;                   ///< The dealer's final hand
-            std::vector<bool> winners;            ///< Whether each player won (true) or lost (false)
+            /// Whether each hand of each player won (true) or lost (false)
+            /// Indexed as [player_index][hand_index]
+            std::vector<std::vector<bool>> winners;
             std::vector<int> player_money_delta;  ///< Money won by each player in this round (money is already deducted when the bet is placed)
             int dealer_money_delta;             ///< Money won or lost by the dealer in this round
         };
@@ -205,11 +207,18 @@ class ITable {
          * - Plays the dealer's hand according to rules
          * - Determines whether each player wins or loses
          * - Resolves bet winnings
-         * - Clears hands, clears bets, and returns cards to the deck if necessary
          *
          * @return RoundEndInfo Information about the round results
          */
         virtual RoundEndInfo FinishRound() = 0;
+
+        /**
+         * @brief Cleans up the table after a round.
+         * 
+         * This method performs the following operations:
+         * - Clears hands, clears bets, and returns cards to the deck if necessary
+         */
+        virtual void CleanTable() = 0;
 };
 
 #endif // ESAT_BLACKJACK_INTERFACES_ITABLE_H

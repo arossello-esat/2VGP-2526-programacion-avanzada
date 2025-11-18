@@ -88,9 +88,16 @@ class ITable {
          */
         struct RoundEndInfo {
             Hand dealer_hand;                   ///< The dealer's final hand
-            /// Whether each hand of each player won (true) or lost (false)
+
+            enum class BetResult {
+                Win,
+                Lose,
+                Tie,
+                end
+            };
+            /// Whether each hand of each player won, lost, or tied
             /// Indexed as [player_index][hand_index]
-            std::vector<std::vector<bool>> winners;
+            std::vector<std::vector<BetResult>> winners;
             std::vector<int> player_money_delta;  ///< Money won by each player in this round (money is already deducted when the bet is placed)
             int dealer_money_delta;             ///< Money won or lost by the dealer in this round
         };

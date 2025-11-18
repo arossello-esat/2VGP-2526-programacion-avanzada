@@ -96,6 +96,9 @@ class ITable {
                 end
             };
             /// Whether each hand of each player won, lost, or tied
+            /// Players lose when they blow their hand, or if the dealer hasn´t blown their
+            /// hand and has a higher value than them.
+            /// If the values are the same, or both get a blackjack, the bet is a tie.
             /// Indexed as [player_index][hand_index]
             std::vector<std::vector<BetResult>> winners;
             std::vector<int> player_money_delta;  ///< Money won by each player in this round (money is already deducted when the bet is placed)
